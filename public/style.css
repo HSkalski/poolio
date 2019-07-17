@@ -1,0 +1,37 @@
+.ContestPreview {
+  margin: 1em;
+  border: 1px solid #ccc; }
+  .ContestPreview .category-name {
+    border-bottom: 1px soid #ccc;
+    padding: 0.25em 0.5em;
+    font-weight: bold;
+    background-color: #eee; }
+  .ContestPreview .contest-name {
+    padding: 0.5em; }
+
+.Panel {
+  margin: 1em;
+  border: 1px solid #ccc;
+  text-align: center; }
+  .Panel .DataPanel {
+    border-bottom: 1px soid #ccc;
+    padding: 0.25em 0.5em;
+    font-weight: bold;
+    background-color: #eee; }
+  .Panel .ControlPanel {
+    border-bottom: 1px soid #ccc;
+    padding: 0.25em 0.5em;
+    font-weight: bold;
+    background-color: #eee; }
+  .Panel .GraphPanel {
+    border-bottom: 1px soid #ccc;
+    padding: 0.25em 0.5em;
+    font-weight: bold;
+    background-color: #eee; }
+
+.link {
+  cursor: pointer; }
+
+.home-link {
+  margin-top: 1em;
+  color: #0000ee; }
