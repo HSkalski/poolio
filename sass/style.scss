@@ -14,16 +14,32 @@
         padding:0.5em;
     }
 }
+
+.App{
+    padding: 0.25em 0.5em;
+}
+
+.Header{
+    font-size: 30pt;
+    font-weight: bold;
+}
+
 .Panel{
     margin: 1em;
     border: 1px solid #ccc;
     text-align: center;
+    background-color: #eeee;
+    font-size: 16pt;
+
+    .Panel-Header{
+        padding: 0.25em 0.5em;
+    }
 
     .DataPanel{
         border-bottom: 1px soid #ccc;
-            padding: 0.25em 0.5em;
-            font-weight: bold;
-            background-color: #eee;
+        padding: 0.25em 0.5em;
+        font-weight: bold;
+        background-color: #eee;
     }
     .ControlPanel{
         border-bottom: 1px soid #ccc;

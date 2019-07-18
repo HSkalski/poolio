@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 // When on home page, render DataPanel
 const DataPanel = () => (
   <div className="Panel DataPanel">
-    I'll be the data panel
+    <div className='Panel-Header'>Data Panel</div>
   </div>
 );
 

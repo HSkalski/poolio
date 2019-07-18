@@ -7,7 +7,6 @@ import * as api from '../api';
 import DataPanel from './DataPanel';
 import ControlPanel from './ControlPanel';
 import GraphPanel from './GraphPanel';
-import data from './testData';
 
 // Window history, forward button
 const pushState = (obj, url) =>
@@ -32,9 +31,6 @@ class App extends React.Component {
       this.setState({
         currentContestId: (event.state || {}).currentContestId
       });
-    });
-    this.setState({
-      data: data.data
     });
   }
   // What to do when component is leaving
@@ -153,7 +149,7 @@ class App extends React.Component {
         <Header message={this.pageHeader()} />
         <DataPanel />
         <ControlPanel />
-        <GraphPanel data={this.data} />
+        <GraphPanel />
       </div>
     );
   }
