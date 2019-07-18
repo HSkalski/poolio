@@ -28,11 +28,27 @@ router.get('/contests', (req, res) => {
     })
     .each((err, contest) => {
       assert.equal(null, err);
-      if(!contest){ //no more contests
-        res.send({contests});
+      if (!contest) { //no more contests
+        res.send({ contests });
         return;
       }
       contests[contest._id] = contest;
+    });
+});
+
+// '/data' endpoint adds data to an array from
+// the mdb collection called data, if there aren't any 
+// more, return the list
+router.get('/data', (req, res) => {
+  let graphData = {};
+  mdb.collection('data').find({})
+    .each((err, data) => {
+      assert.equal(null, err);
+      if (!data) { //no more contests
+        res.send({ graphData });
+        return;
+      }
+      graphData[data._id] = data;
     });
 });
 
@@ -40,11 +56,11 @@ router.get('/contests', (req, res) => {
 router.get('/names/:nameIds', (req, res) => {
   const nameIds = req.params.nameIds.split(',').map(ObjectID);
   let names = {};
-  mdb.collection('names').find({ _id: { $in: nameIds }})
+  mdb.collection('names').find({ _id: { $in: nameIds } })
     .each((err, name) => {
       assert.equal(null, err);
-      if(!name){ //no more names
-        res.send({names});
+      if (!name) { //no more names
+        res.send({ names });
         return;
       }
       names[name._id] = name;
@@ -54,7 +70,7 @@ router.get('/names/:nameIds', (req, res) => {
 // return a contest at given contestId, else send 404 not found page
 router.get('/contests/:contestId', (req, res) => {
   mdb.collection('contests')
-    .findOne({_id: ObjectID(req.params.contestId)})
+    .findOne({ _id: ObjectID(req.params.contestId) })
     .then(contest => res.send(contest))
     .catch(console.error)
     .catch(error => {
@@ -85,6 +101,35 @@ router.post('/names', (req, res) => {
     console.error(error);
     res.status(404).send('Bad Request');
   });
+});
+
+// post data record to the names collection, 
+router.post('/data', (req, res) => {
+  //const contestId = ObjectID(req.body.contestId);
+  //const name = req.body.newName;
+  const pumpStatus = Number(req.body.pumpStatus);
+  const Tpool = Number(req.body.Tpool);
+  const Tair = Number(req.body.Tair);
+  const Theat = Number(req.body.Theat);
+  let time = new Date();
+  // should validate data ...but ehh
+
+  mdb.collection('data')
+    .insertOne({ pumpStatus, Tpool, Tair, Theat, time})
+    .then((result) => {
+      res.send({
+        _id: result.insertedId,
+        pumpStatus: pumpStatus,
+        Tpool: Tpool,
+        Tair: Tair,
+        Theat: Theat,
+        time: time,
+      });
+    })
+    .catch(error => {
+      console.error(error);
+      res.status(404).send('Bad Request');
+    });
 });
 
 // Export router so that server can use it

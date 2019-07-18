@@ -13,7 +13,7 @@ const getApiUrl = contestId => {
   if(contestId){
     return `${config.serverUrl}/api/contests/${contestId}`;
   }
-  return `${config.serverUrl}/api/contests`;
+  return `${config.serverUrl}/api/data`;
 };
 
 // Initial data for rendering
@@ -29,7 +29,10 @@ const getInitialData = (contestId, apiData) => {
     };
   }
   return{
-    contests: apiData.contests
+    contests: apiData.contests,
+    arrData: Object.keys(apiData.graphData).map((i) =>{
+      return apiData.graphData[i];
+    })
   };
 };
 
