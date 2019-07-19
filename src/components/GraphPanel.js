@@ -11,8 +11,6 @@ class GraphPanel extends Component {
   }
   
   render(){
-    console.info('GraphPanel rendering: ');
-    console.info(this.props.arrData);
     return(
       <div className='Panel GraphPanel'>
         <div className='Panel-Header'>Graph Panel</div>

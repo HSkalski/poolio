@@ -22,7 +22,7 @@ import serverRender from './serverRender';
 
 // Server side rendering function
 server.get(['/','/contest/:contestId'], (req, res) => {
-  serverRender(req.params.contestId)
+  serverRender()
     .then(({initialMarkup, initialData}) => {
       res.render('index', {
         initialMarkup,

@@ -10,8 +10,8 @@ import GraphPanel from './GraphPanel';
 import ManualPanel from './ManualPanel';
 
 // Window history, forward button
-const pushState = (obj, url) =>
-  window.history.pushState(obj, '', url);
+// const pushState = (obj, url) =>
+//   window.history.pushState(obj, '', url);
 
 // Window history, back button
 const onPopState = handler => {
@@ -42,8 +42,8 @@ class App extends React.Component {
   }
   // What to do when component is leaving
   componentWillUnmount() {
-  //   // Clear history state
-    onPopState(null);
+     // Clear history state
+    //onPopState(null);
   }
   // Find contest by Id string, call the api layer, set state
   // fetchContest = (contestId) => {
@@ -122,7 +122,7 @@ class App extends React.Component {
   // };
 
   // Add a new record, call api, set state
-  addRecord = (pumpStatus, Tpool, Tair, Theat) => {
+  addRecord2 = (pumpStatus, Tpool, Tair, Theat) => {
     api.addRecord(pumpStatus, Tpool, Tair, Theat).then(resp =>
       this.state.arrData.push({
         _id: resp._id,
@@ -135,7 +135,20 @@ class App extends React.Component {
     )
       .catch(console.error);
     this.forceUpdate();
-    console.log('Force Update');
+  }
+
+  addRecord = (pumpStatus, Tpool, Tair, Theat) => {
+    api.addRecord(pumpStatus, Tpool, Tair, Theat).then(resp =>
+      api.fetchGraphData().then(newData => {
+        this.setState({
+          arrData: Object.keys(newData.graphData).map((i) =>{
+            return newData.graphData[i];
+          })
+        });
+      })
+    )
+      .catch(console.error);
+    this.forceUpdate();
   }
 
   // What contest is on screen
@@ -147,9 +160,6 @@ class App extends React.Component {
   //    If not on homepage -> page name
   //    else -> Poolio
   pageHeader() {
-    if (this.state.currentContestId) {
-      return this.currentContest().contestName;
-    }
     return '< POOL-io />';
   }
 
@@ -192,7 +202,13 @@ class App extends React.Component {
     return (
       <div className="App" >
         <Header message={this.pageHeader()} />
-        <DataPanel fetchRecentData={this.fetchRecentData}/>
+        <DataPanel 
+          pumpStatus={this.state.arrData[this.state.arrData.length-1].pumpStatus}
+          Tpool={this.state.arrData[this.state.arrData.length-1].Tpool}
+          Tair={this.state.arrData[this.state.arrData.length-1].Tair}
+          Theat={this.state.arrData[this.state.arrData.length-1].Theat}
+          time={this.state.arrData[this.state.arrData.length-1].time}
+        />
         <ControlPanel />
         <ManualPanel addRecord={this.addRecord} />
         <GraphPanel

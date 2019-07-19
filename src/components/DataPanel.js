@@ -5,16 +5,17 @@ import PropTypes from 'prop-types';
 class DataPanel extends Component {
 
   componentDidMount(){
-    console.log('DataPanel Mounted');
-    this.props.fetchRecentData;
   }
   
   render(){
     return(
       <div className="Panel DataPanel">
         <div className='Panel-Header'>
-          Data Panel
-
+          Data Panel<br/>
+          Pump Status: {this.props.pumpStatus} <br/>
+          Temp Pool:{this.props.Tpool}<br/>
+          Temp Air:{this.props.Tair}<br/>
+          Temp Heater:{this.props.Theat}
         </div>
       </div>
     );
@@ -22,7 +23,11 @@ class DataPanel extends Component {
 }
 
 DataPanel.propTypes = {
-  fetchRecentData: PropTypes.func.isRequired,
+  pumpStatus: PropTypes.number.isRequired,
+  Tpool: PropTypes.number.isRequired,
+  Tair: PropTypes.number.isRequired,
+  Theat: PropTypes.number.isRequired,
+  //time: PropTypes.date.isRequired
 };
 
 export default DataPanel;
