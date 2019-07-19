@@ -118,12 +118,13 @@ router.post('/data', (req, res) => {
     .insertOne({ pumpStatus, Tpool, Tair, Theat, time})
     .then((result) => {
       res.send({
-        _id: result.insertedId,
-        pumpStatus: pumpStatus,
-        Tpool: Tpool,
-        Tair: Tair,
-        Theat: Theat,
-        time: time,
+        // _id: result.insertedId,
+        // pumpStatus: pumpStatus,
+        // Tpool: Tpool,
+        // Tair: Tair,
+        // Theat: Theat,
+        // time: time,
+        status: result
       });
     })
     .catch(error => {

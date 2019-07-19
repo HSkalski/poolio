@@ -25,7 +25,7 @@ export const fetchNames = nameIds => {
 export const fetchGraphData = () => {
   // eslint-disable-next-line quotes
   return axios.get(`/api/data/`)
-    .then(resp => resp.data.contents);
+    .then(resp => resp.data);
 };
 
 // Post a new proposed name

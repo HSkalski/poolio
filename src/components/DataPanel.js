@@ -13,9 +13,10 @@ class DataPanel extends Component {
         <div className='Panel-Header'>
           Data Panel<br/>
           Pump Status: {this.props.pumpStatus} <br/>
-          Temp Pool:{this.props.Tpool}<br/>
-          Temp Air:{this.props.Tair}<br/>
-          Temp Heater:{this.props.Theat}
+          Temp Pool: {this.props.Tpool}<br/>
+          Temp Air: {this.props.Tair}<br/>
+          Temp Heater: {this.props.Theat}<br/>
+          Date: {this.props.time}
         </div>
       </div>
     );
@@ -27,7 +28,7 @@ DataPanel.propTypes = {
   Tpool: PropTypes.number.isRequired,
   Tair: PropTypes.number.isRequired,
   Theat: PropTypes.number.isRequired,
-  //time: PropTypes.date.isRequired
+  time: PropTypes.string.isRequired
 };
 
 export default DataPanel;

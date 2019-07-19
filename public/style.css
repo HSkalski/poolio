@@ -9,6 +9,11 @@
   .ContestPreview .contest-name {
     padding: 0.5em; }
 
+.container {
+  width: 100%;
+  background: #2c70d4;
+  background: linear-gradient(0deg, rgba(44, 112, 212, 0.881671) 0%, #89f4ff 50%, #74efff 100%); }
+
 .App {
   padding: 0.25em 0.5em; }
 
@@ -20,7 +25,7 @@
   margin: 1em;
   border: 1px solid #ccc;
   text-align: center;
-  background-color: #eeee;
+  background-color: #fff7e0;
   font-size: 16pt; }
   .Panel .Panel-Header {
     padding: 0.25em 0.5em; }

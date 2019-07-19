@@ -14,9 +14,9 @@ import ManualPanel from './ManualPanel';
 //   window.history.pushState(obj, '', url);
 
 // Window history, back button
-const onPopState = handler => {
-  window.onpopstate = handler;
-};
+// const onPopState = handler => {
+//   window.onpopstate = handler;
+// };
 
 //Main component, controls whats on screen
 class App extends React.Component {
@@ -138,15 +138,17 @@ class App extends React.Component {
   }
 
   addRecord = (pumpStatus, Tpool, Tair, Theat) => {
-    api.addRecord(pumpStatus, Tpool, Tair, Theat).then(resp =>
-      api.fetchGraphData().then(newData => {
-        this.setState({
-          arrData: Object.keys(newData.graphData).map((i) =>{
-            return newData.graphData[i];
-          })
+    api.addRecord(pumpStatus, Tpool, Tair, Theat).then(resp => {
+      if(resp.status.ok === 1){
+        api.fetchGraphData().then(newData => {
+          this.setState({
+            arrData: Object.keys(newData.graphData).map((i) =>{
+              return newData.graphData[i];
+            })
+          });
         });
-      })
-    )
+      }
+    })
       .catch(console.error);
     this.forceUpdate();
   }
