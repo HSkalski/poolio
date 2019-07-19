@@ -23,7 +23,7 @@ class GraphPanel extends Component {
               top: 5, right: 30, left: 20, bottom: 5,
             }}>
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="time" hide={true}/>
+            <XAxis dataKey="time"/>
             <YAxis  domain={['dataMin-10','dataMax+10']}/>
             <Tooltip />
             <Legend />

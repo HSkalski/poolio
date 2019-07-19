@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Header from './Header';
+import Footer from './Footer';
 //import ContestList from './ContestList';
 //import Contest from './contest';
 import * as api from '../api';
@@ -164,6 +165,9 @@ class App extends React.Component {
   pageHeader() {
     return '< POOL-io />';
   }
+  pageFooter(){
+    return 'POOLio is a web app made to monitor and control a pool heater';
+  }
 
   // Find a proposed name by its nameId, while loading, replace with '...'
   // lookupName = (nameId) => {
@@ -216,6 +220,7 @@ class App extends React.Component {
         <GraphPanel
           //fetchGraphData={this.fetchGraphData}
           arrData={this.state.arrData} />
+        <Footer message={this.pageFooter()} />
       </div>
     );
   }

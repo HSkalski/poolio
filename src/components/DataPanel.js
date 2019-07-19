@@ -10,14 +10,12 @@ class DataPanel extends Component {
   render(){
     return(
       <div className="Panel DataPanel">
-        <div className='Panel-Header'>
-          Data Panel<br/>
-          Pump Status: {this.props.pumpStatus} <br/>
+        <div className='Panel-Header'> Data Panel </div>
+        Pump Status: {this.props.pumpStatus} <br/>
           Temp Pool: {this.props.Tpool}<br/>
           Temp Air: {this.props.Tair}<br/>
           Temp Heater: {this.props.Theat}<br/>
           Date: {this.props.time}
-        </div>
       </div>
     );
   }
