@@ -6,15 +6,14 @@ import ToggleSwitch from './ToggleSwitch';
 
 // When on home page, render ControlPanel
 class ControlPanel extends Component {
-
  
   render() {
 
     return (
       <div className="Panel ControlPanel">
         <div className='Panel-Header'> Control Panel </div>
-        Target Temp: <br />
-        <ToggleSwitch values={['days', 'weeks', 'months']} selected="days" />
+        Target Temp: [PLACEHOLDER]<br />
+        <ToggleSwitch values={['on', 'off', 'auto']} selected={this.props.functionSelected} handleChange={this.props.functionToggleChange}/>
       </div>
     );
   }
@@ -22,7 +21,12 @@ class ControlPanel extends Component {
 
 
 ControlPanel.propTypes = {
+  functionToggleChange: PropTypes.func.isRequired,
+  functionSelected: PropTypes.string.isRequired,
+};
 
+ControlPanel.defautProps ={
+  functionSelected: 'on',
 };
 
 export default ControlPanel;

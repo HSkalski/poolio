@@ -34,7 +34,7 @@ export const addName = (newName, contestId) => {
     .then(resp => resp.data);
 };
 
-export const addRecord = (pumpStatus, Tpool, Tair, Theat) => {
-  return axios.post('api/data', {pumpStatus, Tpool, Tair, Theat})
+export const addRecord = (toggleStatus, pumpStatus, Tpool, Tair, Theat) => {
+  return axios.post('api/data', {toggleStatus, pumpStatus, Tpool, Tair, Theat})
     .then(resp => resp.data);
 };

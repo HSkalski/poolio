@@ -5,6 +5,8 @@ import Footer from './Footer';
 //import ContestList from './ContestList';
 //import Contest from './contest';
 import * as api from '../api';
+import * as logic from '../logic';
+import * as control from '../controlLoop';
 import DataPanel from './DataPanel';
 import ControlPanel from './ControlPanel';
 import GraphPanel from './GraphPanel';
@@ -26,6 +28,13 @@ class App extends React.Component {
   };
   // Initially set state using server rendering
   state = this.props.initialData;
+  constructor(props) {
+    super(props);
+    this.state = {
+      arrData: this.state.arrData,
+      functionSelected: 'off'
+    };
+  }
 
   // What to do once component is on screen
   componentDidMount() {
@@ -40,91 +49,43 @@ class App extends React.Component {
     //     return this.state.graphData[i];
     //   })
     // });
+
+    // this.setState({
+    //   functionSelected:'off',
+    // });
+
+    // this.interval = setInterval(() => {
+    //   let toggleStatus;
+    //   if(this.state.functionSelected == 'on')
+    //     toggleStatus = 1;
+    //   else if(this.state.functionSelected == 'off')
+    //     toggleStatus = 0;
+    //   else if(this.state.functionSelected == 'auto')
+    //     toggleStatus = 2;
+    //   let fakeData = control.loop(toggleStatus);
+    //   console.log('Posting new data');
+    //   this.addRecord(fakeData.pool_temp, fakeData.air_temp, fakeData.pump_temp);
+    // } ,5000);
   }
   // What to do when component is leaving
   componentWillUnmount() {
-     // Clear history state
+    // Clear history state
     //onPopState(null);
+
+    //clearInterval(this.interval);
   }
-  // Find contest by Id string, call the api layer, set state
-  // fetchContest = (contestId) => {
-  //   pushState(
-  //     { currentContestId: contestId },
-  //     `/contest/${contestId}`,
-  //   );
 
-  //   api.fetchContest(contestId).then(contest => {
-  //     this.setState({
-  //       currentContestId: contest._id,
-  //       contests: {
-  //         ...this.state.contests,
-  //         [contest._id]: contest
-  //       }
-  //     });
-  //   });
-  // };
-
-  // Get list of contests for main page from api layer, set the state 
-  // fetchContestList = () => {
-  //   pushState(
-  //     { currentContestId: null },
-  //     // eslint-disable-next-line quotes
-  //     `/`,
-  //   );
-  //
-  //   api.fetchContestList().then(contests => {
-  //     this.setState({
-  //       currentContestId: null,
-  //       contests
-  //     });
-  //   });
-  // };
-
-  // Get data to fill GraphPanel
-  // fetchGraphData = () => {
-
-  //   api.fetchGraphData().then(data => {
-  //     console.log(data);
-  //     this.setState({
-  //       graphData: data
-  //     });
-  //   });
-  //   console.log(this.state.graphData);
-  // };
-
-
-  // Get list of name candidates from api layer, set state
-  // fetchNames = (nameIds) => {
-  //   if(nameIds.length === 0){
-  //     return;
-  //   }
-  //   api.fetchNames(nameIds).then(names => {
-  //     this.setState({
-  //       names
-  //     });
-  //   });
-  // };
-
-  // Add a new name, call to api, set state
-  // addName = (newName, contestId) => {
-  //   api.addName(newName, contestId).then(resp =>
-  //     this.setState({
-  //       contests: {
-  //         ...this.state.contests,
-  //         [resp.updatedContest._id]: resp.updatedContest
-  //       },
-  //       names: {
-  //         ...this.state.names,
-  //         [resp.newName._id]: resp.newName
-  //       }
-  //     })
-  //   )
-  //     .catch(console.error);
-  // };
-
-  // Add a new record, call api, set state
-  addRecord2 = (pumpStatus, Tpool, Tair, Theat) => {
-    api.addRecord(pumpStatus, Tpool, Tair, Theat).then(resp =>
+  getToggleStatus = () => {
+    if (this.state.functionSelected === 'on')
+      return 1;
+    else if (this.state.functionSelected === 'off')
+      return 0;
+    else if (this.state.functionSelected === 'auto')
+      return 2;
+  }
+  // Add a new record, call api, set state (old way)
+  addRecordOLD = (toggleStatus, pumpStatus, Tpool, Tair, Theat) => {
+    api.addRecord(toggleStatus, pumpStatus, Tpool, Tair, Theat).then(resp =>
       this.state.arrData.push({
         _id: resp._id,
         pumpStatus: resp.pumpStatus,
@@ -138,12 +99,13 @@ class App extends React.Component {
     this.forceUpdate();
   }
 
-  addRecord = (pumpStatus, Tpool, Tair, Theat) => {
-    api.addRecord(pumpStatus, Tpool, Tair, Theat).then(resp => {
-      if(resp.status.ok === 1){
+  // Add a new record, call api, set state
+  addRecord = (toggleStatus, pumpStatus, Tpool, Tair, Theat) => {
+    api.addRecord(toggleStatus, pumpStatus, Tpool, Tair, Theat).then(resp => {
+      if (resp.status.ok === 1) {
         api.fetchGraphData().then(newData => {
           this.setState({
-            arrData: Object.keys(newData.graphData).map((i) =>{
+            arrData: Object.keys(newData.graphData).map((i) => {
               return newData.graphData[i];
             })
           });
@@ -152,6 +114,14 @@ class App extends React.Component {
     })
       .catch(console.error);
     this.forceUpdate();
+  }
+
+  functionToggleChange = (val) => {
+    this.setState({
+      functionSelected: val,
+    }, () =>
+        console.log('state', this.state.functionSelected)
+    );
   }
 
   // What contest is on screen
@@ -165,7 +135,7 @@ class App extends React.Component {
   pageHeader() {
     return '< POOL-io />';
   }
-  pageFooter(){
+  pageFooter() {
     return 'POOLio is a web app made to monitor and control a pool heater';
   }
 
@@ -179,14 +149,6 @@ class App extends React.Component {
   //   return this.state.names[nameId];
   // };
 
-  fetchRecentData = () => {
-    let recentData =  this.state.arrData[this.state.arrData.length-1];
-    this.setState({
-      recentData: recentData,
-      arrData: this.state.arrData,
-    });
-  }
-  
   // if app is in contest -> render that contest
   // else -> render the contest list
   // currentContent() {
@@ -205,18 +167,21 @@ class App extends React.Component {
 
   // What App renders (old: {this.currentContent()})
   render() {
+
+
+
     return (
       <div className="App" >
         <Header message={this.pageHeader()} />
-        <DataPanel 
-          pumpStatus={this.state.arrData[this.state.arrData.length-1].pumpStatus}
-          Tpool={this.state.arrData[this.state.arrData.length-1].Tpool}
-          Tair={this.state.arrData[this.state.arrData.length-1].Tair}
-          Theat={this.state.arrData[this.state.arrData.length-1].Theat}
-          time={this.state.arrData[this.state.arrData.length-1].time}
+        <DataPanel
+          pumpStatus={this.state.arrData[this.state.arrData.length - 1].pumpStatus}
+          Tpool={this.state.arrData[this.state.arrData.length - 1].Tpool}
+          Tair={this.state.arrData[this.state.arrData.length - 1].Tair}
+          Theat={this.state.arrData[this.state.arrData.length - 1].Theat}
+          time={this.state.arrData[this.state.arrData.length - 1].time}
         />
-        <ControlPanel />
-        <ManualPanel addRecord={this.addRecord} />
+        <ControlPanel functionSelected={this.state.functionSelected} functionToggleChange={this.functionToggleChange} />
+        <ManualPanel getToggleStatus={this.getToggleStatus} addRecord={this.addRecord} />
         <GraphPanel
           //fetchGraphData={this.fetchGraphData}
           arrData={this.state.arrData} />

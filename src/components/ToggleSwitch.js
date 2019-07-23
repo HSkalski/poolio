@@ -10,14 +10,25 @@ const ClickableLabel = ({ title, onChange }) =>
     {titleCase(title)}
   </label>;
 
+ClickableLabel.propTypes = {
+  title: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired
+};
+
 const ConcealedRadio = ({ value, selected }) =>
   <input className="switch-radio" type="radio" name="switch" checked={selected === value} />;
+
+ConcealedRadio.propTypes = {
+  value: PropTypes.string.isRequired,
+  selected: PropTypes.string.isRequired
+};
 
 class ToggleSwitch extends Component {
   state = { selected: this.props.selected };
 
   handleChange = val => {
     this.setState({ selected: val });
+    this.props.handleChange(val);
   };
 
   selectionStyle = () => {
@@ -29,7 +40,7 @@ class ToggleSwitch extends Component {
   render() {
     const { selected } = this.state;
     return (
-      <input className="switch">
+      <div className="switch">
         {this.props.values.map(val => {
           return (
             <span key={val}>
@@ -39,7 +50,7 @@ class ToggleSwitch extends Component {
           );
         })}
         <span className="switch-selection" style={this.selectionStyle()} />
-      </input>
+      </div>
     );
   }
 }
@@ -49,4 +60,5 @@ export default ToggleSwitch;
 ToggleSwitch.propTypes = {
   values: PropTypes.array.isRequired,
   selected: PropTypes.string.isRequired,
+  handleChange: PropTypes.func.isRequired,
 };

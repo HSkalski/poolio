@@ -107,6 +107,7 @@ router.post('/names', (req, res) => {
 router.post('/data', (req, res) => {
   //const contestId = ObjectID(req.body.contestId);
   //const name = req.body.newName;
+  const toggleStatus = Number(req.body.toggleStatus);
   const pumpStatus = Number(req.body.pumpStatus);
   const Tpool = Number(req.body.Tpool);
   const Tair = Number(req.body.Tair);
@@ -115,7 +116,7 @@ router.post('/data', (req, res) => {
   // should validate data ...but ehh
 
   mdb.collection('data')
-    .insertOne({ pumpStatus, Tpool, Tair, Theat, time})
+    .insertOne({ toggleStatus, pumpStatus, Tpool, Tair, Theat, time})
     .then((result) => {
       res.send({
         // _id: result.insertedId,
