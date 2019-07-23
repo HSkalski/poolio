@@ -29,4 +29,12 @@ DataPanel.propTypes = {
   time: PropTypes.string.isRequired
 };
 
+DataPanel.defaultProps = {
+  pumpStatus: null,
+  Tpool: null,
+  Tair: null,
+  Theat: null,
+  time: null
+};
+
 export default DataPanel;
