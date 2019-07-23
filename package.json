@@ -1,22 +1,14 @@
 {
   "name": "fulljs",
   "version": "1.0.0",
-  "description": "Learning Fullstack JavaScript Development: MongoDB, Node.js, React.js",
+  "description": "Web app for diy pool heater control",
   "main": "index.js",
   "scripts": {
     "start": "nodemon --exec babel-node server.js --ignore public/",
     "dev": "webpack -wd"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/jscomplete/learn-fullstack-javascript.git"
-  },
   "author": "",
   "license": "GPL-3.0",
-  "bugs": {
-    "url": "https://github.com/jscomplete/learn-fullstack-javascript/issues"
-  },
-  "homepage": "https://github.com/jscomplete/learn-fullstack-javascript#readme",
   "dependencies": {
     "axios": "^0.19.0",
     "body-parser": "^1.19.0",
