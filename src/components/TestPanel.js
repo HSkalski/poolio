@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import * as logic from '../logic';
 
-// When on home page, render ManualPanel
-class ManualPanel extends Component {
+// When on home page, render TestPanel
+class TestPanel extends Component {
 
   handleSubmit = (event) => {
     // event.preventDefault();
@@ -13,42 +13,51 @@ class ManualPanel extends Component {
     // this.refs.newNameInput.value = '';
     event.preventDefault();
     
-    const pump_status = this.props.pumpLogic(this.refs.toggle_status.value,this.refs.temp_pool.value,this.refs.temp_heat.value);
-
+    const pump_status = logic.pumpLogic(this.refs.toggle_status.value,this.refs.temp_pool.value,this.refs.temp_heat.value);
+    const targetTemp = this.props.targetTemp;
     this.props.addRecord(this.refs.toggle_status.value,
                          pump_status, 
                          this.refs.temp_pool.value, 
                          this.refs.temp_air.value, 
-                         this.refs.temp_heat.value);
+                         this.refs.temp_heat.value,
+                         targetTemp);
     this.refs.toggle_status.value='';
     this.refs.temp_pool.value='';
     this.refs.temp_air.value='';
     this.refs.temp_heat.value='';
   };
-
+  
   handleClick = (event) => {
 
     event.preventDefault();
     let data = logic.fakeData(); 
-    console.log(data);
-    console.log(this.props.getToggleStatus());
-    let pump_status = logic.pumpLogic(this.props.getToggleStatus(), data.temp_pool, data.temp_heat);
-    console.log(pump_status);
-    // this.props.addRecord(
+    //console.log(data);
+    //console.log(this.props.getToggleStatus());
+    let pump_status = logic.pumpLogic(this.props.getToggleStatus(), data.pool_temp, data.pump_temp);
+    //console.log(pump_status);
+    // console.log(
     //   this.props.getToggleStatus,
     //   pump_status,
-    //   data.temp_air,
-    //   data.temp_heat
+    //   data.air_temp,
+    //   data.pump_temp
     // );
+    this.props.addRecord(
+      this.props.getToggleStatus(),
+      pump_status,
+      data.pool_temp,
+      data.air_temp,
+      data.pump_temp,
+      this.props.targetTemp
+    );
 
   }
 
   render(){
     return(
 
-      <div className="Panel ManualPanel">
+      <div className="Panel TestPanel">
         <div className='Panel-Header'>
-          Manual Panel
+          Test Panel
           <form onSubmit={this.handleSubmit}>
             <div className="input-group">
 
@@ -71,13 +80,14 @@ class ManualPanel extends Component {
                 placeholder="Pump Water Temp..."
                 ref="temp_heat"
                 className="form-control" />
+              
               <span className="input-group-btn">
               
                 <button type="submit" className="btn btn-info">Submit</button>
               </span>
             </div>
           </form>
-          <button type="button" onClick={this.handleClick}>Generate Fake Data</button>
+          <button type="button" className="btn btn-info" onClick={this.handleClick}>Generate Fake Data</button>
         </div>
       </div>
 
@@ -86,9 +96,10 @@ class ManualPanel extends Component {
   
 }
 
-ManualPanel.propTypes = {
+TestPanel.propTypes = {
   addRecord: PropTypes.func.isRequired,
   getToggleStatus: PropTypes.func.isRequired,
+  targetTemp: PropTypes.number.isRequired,
 };
 
-export default ManualPanel;
+export default TestPanel;

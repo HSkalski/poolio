@@ -16,7 +16,7 @@ ClickableLabel.propTypes = {
 };
 
 const ConcealedRadio = ({ value, selected }) =>
-  <input className="switch-radio" type="radio" name="switch" checked={selected === value} />;
+  <input className="switch-radio" type="radio" name="switch" defaultChecked={selected === value} />;
 
 ConcealedRadio.propTypes = {
   value: PropTypes.string.isRequired,
@@ -25,6 +25,10 @@ ConcealedRadio.propTypes = {
 
 class ToggleSwitch extends Component {
   state = { selected: this.props.selected };
+
+  componentWillReceiveProps(nextProps){
+    this.setState({ selected: nextProps.selected});
+  }
 
   handleChange = val => {
     this.setState({ selected: val });

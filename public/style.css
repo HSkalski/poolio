@@ -12,7 +12,7 @@
 .container {
   width: 100%;
   background-color: #b3dced;
-  background: linear-gradient(to bottom, #b3dced 0%, #29b9e5 100%); }
+  background: linear-gradient(to bottom, #80eeff 0%, #17A2B8 100%); }
 
 .App {
   padding: 0.25em 0.5em; }
@@ -43,9 +43,13 @@
     padding: 0.25em 0.5em;
     font-weight: bold;
     background-color: #eee; }
+  .Panel .DataStatus {
+    border: 2px solid #CED4DA;
+    margin: 1em;
+    background-color: white; }
   .Panel .ControlPanel {
-    border-bottom: 1px soid #ccc;
     padding: 0.25em 0.5em;
+    border-bottom: 1px soid #ccc;
     font-weight: bold;
     background-color: #eee; }
   .Panel .GraphPanel {
@@ -53,6 +57,9 @@
     padding: 0.25em 0.5em;
     font-weight: bold;
     background-color: #eee; }
+
+.Fake-Button {
+  color: #5BC0DE; }
 
 .link {
   cursor: pointer; }
@@ -66,7 +73,7 @@
   position: relative;
   height: 26px;
   width: 135px;
-  background-color: #999999;
+  background-color: #a6a6a6;
   border-radius: 3px;
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px rgba(255, 255, 255, 0.1);
   margin: auto; }
@@ -93,6 +100,6 @@
   left: 0px;
   width: 45px;
   height: 26px;
-  background: #216BA5;
+  background: #17A2B8;
   border-radius: 3px;
   transition: left 0.25s ease-out; }

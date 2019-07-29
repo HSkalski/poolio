@@ -5,6 +5,7 @@ import sassMiddleware from 'node-sass-middleware';
 import path from 'path';
 import express from 'express';
 import bodyParser from 'body-parser';
+import axios from 'axios';
 
 const server = express();
 server.use(bodyParser.json());
@@ -43,3 +44,43 @@ server.use(express.static('public'));
 server.listen(config.port, config.host, () => {
   console.info('Express listening on port', config.port);
 });
+
+//////////// Start Server Control Logic Section //////////
+
+//  Function To Get Data From Seonsors, POST to API
+const sensorData = () => {
+  
+  // Read sensor data from GPIO pins
+  
+  // Validate sensor data
+
+  // POST to server API
+
+};
+
+// Turn pump on or off
+const setPump = () => {
+
+};
+
+// Depending on settings, turn pump on or off
+const pumpLogic = () => {
+
+};
+
+//  Function To Get Data From API
+const arrifyData = (apiData) => {
+  return{
+    arrData: Object.keys(apiData.graphData).map((i) => {
+      return apiData.graphData[i];
+    })
+  };
+};
+
+setInterval(() => {
+  axios.get(`${config.serverUrl}/api/data`)
+    .then(resp => {
+      let data = arrifyData(resp.data);
+      //console.log(data);
+    });
+},5000);

@@ -6,11 +6,11 @@ import Footer from './Footer';
 //import Contest from './contest';
 import * as api from '../api';
 import * as logic from '../logic';
-import * as control from '../controlLoop';
+//import * as control from '../controlLoop';
 import DataPanel from './DataPanel';
 import ControlPanel from './ControlPanel';
 import GraphPanel from './GraphPanel';
-import ManualPanel from './ManualPanel';
+import TestPanel from './TestPanel';
 
 // Window history, forward button
 // const pushState = (obj, url) =>
@@ -66,6 +66,10 @@ class App extends React.Component {
     //   console.log('Posting new data');
     //   this.addRecord(fakeData.pool_temp, fakeData.air_temp, fakeData.pump_temp);
     // } ,5000);
+    //console.log(this.getFunctionSelected());
+    this.setState({
+      functionSelected: this.getFunctionSelected()
+    });
   }
   // What to do when component is leaving
   componentWillUnmount() {
@@ -83,7 +87,22 @@ class App extends React.Component {
     else if (this.state.functionSelected === 'auto')
       return 2;
   }
-  // Add a new record, call api, set state (old way)
+
+  getFunctionSelected = () => {
+    //console.log('getting function selected');
+    //console.log(this.state.arrData[this.state.arrData.length - 1].toggleStatus);
+
+    if (this.state.arrData[this.state.arrData.length - 1].toggleStatus == 0)
+      return 'off';
+    else if (this.state.arrData[this.state.arrData.length - 1].toggleStatus == 1)
+      return 'on';
+    else if (this.state.arrData[this.state.arrData.length - 1].toggleStatus == 2)
+      return 'auto';
+
+    //console.log('didnt find any!');
+  }
+
+  // Add a new record, call api, set state (old way BROKEN)
   addRecordOLD = (toggleStatus, pumpStatus, Tpool, Tair, Theat) => {
     api.addRecord(toggleStatus, pumpStatus, Tpool, Tair, Theat).then(resp =>
       this.state.arrData.push({
@@ -100,8 +119,8 @@ class App extends React.Component {
   }
 
   // Add a new record, call api, set state
-  addRecord = (toggleStatus, pumpStatus, Tpool, Tair, Theat) => {
-    api.addRecord(toggleStatus, pumpStatus, Tpool, Tair, Theat).then(resp => {
+  addRecord = (toggleStatus, pumpStatus, Tpool, Tair, Theat, Ttarget) => {
+    api.addRecord(toggleStatus, pumpStatus, Tpool, Tair, Theat, Ttarget).then(resp => {
       if (resp.status.ok === 1) {
         api.fetchGraphData().then(newData => {
           this.setState({
@@ -119,8 +138,16 @@ class App extends React.Component {
   functionToggleChange = (val) => {
     this.setState({
       functionSelected: val,
-    }, () =>
-        console.log('state', this.state.functionSelected)
+    }, () => {
+      this.addRecord(
+        this.getToggleStatus(),
+        logic.pumpLogic(this.getToggleStatus(), this.state.arrData[this.state.arrData.length - 1].Tpool, this.state.arrData[this.state.arrData.length - 1].Theat),
+        this.state.arrData[this.state.arrData.length - 1].Tpool,
+        this.state.arrData[this.state.arrData.length - 1].Tair,
+        this.state.arrData[this.state.arrData.length - 1].Theat,
+        this.state.arrData[this.state.arrData.length - 1].Ttarget,
+      );
+    }
     );
   }
 
@@ -178,10 +205,22 @@ class App extends React.Component {
           Tpool={this.state.arrData[this.state.arrData.length - 1].Tpool}
           Tair={this.state.arrData[this.state.arrData.length - 1].Tair}
           Theat={this.state.arrData[this.state.arrData.length - 1].Theat}
+          Ttarget={this.state.arrData[this.state.arrData.length - 1].Ttarget}
           time={this.state.arrData[this.state.arrData.length - 1].time}
         />
-        <ControlPanel functionSelected={this.state.functionSelected} functionToggleChange={this.functionToggleChange} />
-        <ManualPanel getToggleStatus={this.getToggleStatus} addRecord={this.addRecord} />
+        <ControlPanel
+          functionSelected={this.state.functionSelected}
+          functionToggleChange={this.functionToggleChange}
+          addRecord={this.addRecord}
+          toggleStatus={this.getToggleStatus()}
+          pumpStatus={this.state.arrData[this.state.arrData.length - 1].pumpStatus}
+          tempPool={this.state.arrData[this.state.arrData.length - 1].Tpool}
+          tempAir={this.state.arrData[this.state.arrData.length - 1].Tair}
+          tempHeat={this.state.arrData[this.state.arrData.length - 1].Theat}
+          tempTarget={this.state.arrData[this.state.arrData.length - 1].Ttarget}
+          time={this.state.arrData[this.state.arrData.length - 1].time}
+        />
+        <TestPanel getToggleStatus={this.getToggleStatus} addRecord={this.addRecord} targetTemp={this.state.arrData[this.state.arrData.length - 1].Ttarget} />
         <GraphPanel
           //fetchGraphData={this.fetchGraphData}
           arrData={this.state.arrData} />

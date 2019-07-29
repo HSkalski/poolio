@@ -13,13 +13,13 @@ export const pumpLogic = (toggleStatus, poolTemp, pumpTemp) => {
   //Auto
   else if(toggleStatus == '2' ){
     //Simple heating loop, checks if pump temp is greater than pool temp
-    console.log(poolTemp, pumpTemp);
+    //onsole.log(poolTemp, pumpTemp);
     if(poolTemp < pumpTemp){
-      console.log('Pump temp greater than pool temp');
+      //console.log('Pump temp greater than pool temp');
       return 1;
     }
     else{
-      console.log('Pump temp less than pool temp');
+      //console.log('Pump temp less than pool temp');
       return 0;
     }
   }

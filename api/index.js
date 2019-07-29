@@ -112,11 +112,15 @@ router.post('/data', (req, res) => {
   const Tpool = Number(req.body.Tpool);
   const Tair = Number(req.body.Tair);
   const Theat = Number(req.body.Theat);
+  const Ttarget = Number(req.body.Ttarget);
+  console.log('Ttarget: ',Ttarget);
   let time = new Date();
+  time = time.toLocaleString();
+  //console.log(time);
   // should validate data ...but ehh
 
   mdb.collection('data')
-    .insertOne({ toggleStatus, pumpStatus, Tpool, Tair, Theat, time})
+    .insertOne({ toggleStatus, pumpStatus, Tpool, Tair, Theat, Ttarget, time})
     .then((result) => {
       res.send({
         // _id: result.insertedId,
