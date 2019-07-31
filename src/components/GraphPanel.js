@@ -10,23 +10,45 @@ class GraphPanel extends Component {
   constructor(props){
     super(props);
     this.state={
-      dataArray: this.props.arrData
+      dataArray: this.props.arrData,
+      numData: 50
     };
+    
   }
 
   componentDidMount() {
-    this.setState({
-      dataArray: this.props.arrData
-    });
+    this.updateArray();
   }
   
+  componentWillReceiveProps(nextProps){
+    this.setState({
+      dataArray: nextProps.arrData.slice(nextProps.arrData.length - this.state.numData, nextProps.arrData.length),
+    });
+  }
+
+  updateArray = () => {
+    this.setState({
+      dataArray: this.props.arrData.slice(this.props.arrData.length - this.state.numData, this.props.arrData.length),
+    });
+  }
+
   handleSubmit = (event) => {
     event.preventDefault();
-    console.log(this.refs.num_points.value);
-
-    this.setState({
-      dataArray: this.props.arrData.slice(this.props.arrData.length - this.refs.num_points.value, this.props.arrData.length)
-    });
+    if(this.refs.num_points.value == ''){
+      this.setState({
+        numData: 50,
+      }, () => this.updateArray() );
+    }
+    else{
+      this.setState({
+        numData: this.refs.num_points.value,
+      }, () => this.updateArray() );
+    }
+      //this.updateArray();
+    // this.setState({
+    //   dataArray: this.props.arrData.slice(this.props.arrData.length - this.refs.num_points.value, this.props.arrData.length),
+    //   numData: this.refs.num_points.value
+    // });
     //const recentData = this.props.arrData.slice(this.props.arrData.length - 25, this.props.arrData.length);
 
     this.refs.num_points.value = '';
@@ -35,7 +57,7 @@ class GraphPanel extends Component {
 
   render() {
 
-
+    
     
 
     return (
@@ -53,16 +75,16 @@ class GraphPanel extends Component {
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="time" angle={-10} textAnchor="end" height={60} />
             <YAxis domain={['dataMin-10', 'dataMax+10']} />
-            <YAxis yAxisId="1" domain={[0, 1]} />
-            <YAxis yAxisId="2" domain={[0, 2]} />
+            <YAxis yAxisId="1" domain={[0, 1]} hide={true}/>
+            <YAxis yAxisId="2" domain={[0, 2]} hide={true}/>
             <Tooltip />
             <Legend />
-            <Line type='monotone' dataKey="pumpStatus" stroke="#c4c4c4" yAxisId="1" />
-            <Line type='monotone' dataKey="toggleStatus" stroke="#b0b0b0" yAxisId="2" />
-            <Line type="monotone" dataKey="Tpool" stroke="#8884d8" />
-            <Line type="monotone" dataKey="Tair" stroke="#82ca9d" />
-            <Line type='monotone' dataKey="Theat" stroke="#ca9d82" />
-            <Line type='monotone' dataKey="Ttarget" stroke="#bf4598" />
+            <Line type='monotone' dataKey="pumpStatus" stroke="#c4c4c4" yAxisId="1" dot={false}/>
+            <Line type='monotone' dataKey="toggleStatus" stroke="#b0b0b0" yAxisId="2" dot={false}/>
+            <Line type="monotone" dataKey="Tpool" stroke="#8884d8" dot={false}/>
+            <Line type="monotone" dataKey="Tair" stroke="#82ca9d" dot={false}/>
+            <Line type='monotone' dataKey="Theat" stroke="#ca9d82" dot={false}/>
+            <Line type='monotone' dataKey="Ttarget" stroke="#bf4598" dot={false}/>
 
           </LineChart>
         </ResponsiveContainer>

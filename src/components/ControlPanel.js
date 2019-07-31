@@ -9,7 +9,6 @@ class ControlPanel extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    console.log(this.refs.target_temp.value);
 
     if(this.refs.target_temp.value != 0){
       this.props.addRecord(this.props.toggleStatus,

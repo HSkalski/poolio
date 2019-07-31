@@ -113,7 +113,7 @@ router.post('/data', (req, res) => {
   const Tair = Number(req.body.Tair);
   const Theat = Number(req.body.Theat);
   const Ttarget = Number(req.body.Ttarget);
-  console.log('Ttarget: ',Ttarget);
+  //console.log('Ttarget: ',Ttarget);
   let time = new Date();
   time = time.toLocaleString();
   //console.log(time);
